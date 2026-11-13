@@ -1,0 +1,69 @@
+name: RhinePad
+options:
+  bundleIdPrefix: com.sonnyboy
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+packages:
+  RhineKit:
+    path: RhineKit
+targets:
+  RhinePad:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+      # Upstream assets kept byte-identical (self-use build; see upstream/NOTICE.md for their rights).
+      - path: upstream/web/public/assets/music-case-v040.glb
+        buildPhase: resources
+      - path: upstream/web/public/audio/observatory-preview.mp3
+        buildPhase: resources
+      - path: upstream/web/public/fonts
+        type: folder
+        buildPhase: resources
+      - path: upstream/LICENSE
+        buildPhase: resources
+      - path: upstream/NOTICE.md
+        buildPhase: resources
+    dependencies:
+      - package: RhineKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.sonnyboy.rhinepad
+        PRODUCT_NAME: RhinePad
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        TARGETED_DEVICE_FAMILY: "2"
+        SWIFT_VERSION: "5.0"
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: App/Info.plist
+        ENABLE_PREVIEWS: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: ""
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 6TU85RAYC4
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: RhinePad
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen:
+          UIColorName: LaunchPaper
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+        UIRequiresFullScreen: true
+        UIStatusBarHidden: true
+        UIViewControllerBasedStatusBarAppearance: false
+        UIBackgroundModes:
+          - audio
+        UIFileSharingEnabled: false
+        # Navidrome lives on the LAN over plain HTTP.
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+          NSAllowsArbitraryLoadsForMedia: true
+        NSLocalNetworkUsageDescription: 连接局域网中的 Navidrome 音乐服务器。

@@ -1,0 +1,510 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		12C35F52A1BF4E163D72DB36 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = E4C54264E37B3D4277A95F35 /* fonts */; };
+		18AA6C55AF52DD647AF3D753 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CE354303F030BAFC810201 /* DetailView.swift */; };
+		30D314878585E0EA4E634832 /* CoverLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E7026D99A390E5C3E39D17 /* CoverLoader.swift */; };
+		352C36E949277C1917BBEF7D /* RhinePadApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40AEACC191E8D444ABFC21A /* RhinePadApp.swift */; };
+		460D9B9A0F1B6C717B4882BC /* observatory-preview.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 475C1D13B477233EC673823E /* observatory-preview.mp3 */; };
+		530329327C319061576D2D88 /* ShelfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81862F908ACCF6F1345DE573 /* ShelfView.swift */; };
+		58AE6BCCC015DD39798B4DC3 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B25E96B7CA5D2156BECDE21 /* AppModel.swift */; };
+		65351080FF4EEA4648F59644 /* DetailTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4714E5DB38D4613887E1F5 /* DetailTransport.swift */; };
+		65DC43222F68E6FD2F05C943 /* Callout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD034F6CA55BA55A61C5BA6C /* Callout.swift */; };
+		6A93C4F2087150C793C087C9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF33099D96E14690460E01B5 /* LoginView.swift */; };
+		6AB0FF45D8344281E2391568 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32A7710392A8CC1261B97F9 /* TopBar.swift */; };
+		784BAC91CEA664FA3ED77E2E /* MusicOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3765F0E8194DB89ECE3556BE /* MusicOverlay.swift */; };
+		86146376418C56DC37F5CBB4 /* music-case-v040.glb in Resources */ = {isa = PBXBuildFile; fileRef = 5F1CD1DF2449C510FC149DCD /* music-case-v040.glb */; };
+		8D96A4F9652E05B346D33E43 /* Panels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A733F77A269AEC043ABE13 /* Panels.swift */; };
+		8EEFBE084190F307D324CE2E /* NOTICE.md in Resources */ = {isa = PBXBuildFile; fileRef = B9D518ABFACEA0ED344B496C /* NOTICE.md */; };
+		A2D1854F8F3E49ACD1F0327A /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389B58041A44A1FB114D4508 /* Keychain.swift */; };
+		B7BBC1409D0D232296512EFE /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 98B3A17FFA8D3F5DEEE0D310 /* LICENSE */; };
+		C512223770266A2FA4F645B2 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212A9668848E6B683208F49E /* Icons.swift */; };
+		C713A4EA3009A04E05B27DD8 /* LyricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115CC9BF235BEAEE39B9ECCC /* LyricsView.swift */; };
+		D3D85E9780EAC040320EFAF3 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE62130A58F680AB33E011DB /* Palette.swift */; };
+		D88D2AEE38D0F3FBB7E4E8CD /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2E55254F62E12B06A1BB46 /* Fonts.swift */; };
+		DCE3CBEBF7681E037B7B8772 /* BootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC7292D2F02E8C6BBB07CBD /* BootView.swift */; };
+		EBDA34C38D331D2F4B094DEB /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CF988B0D02E35DFF785D9B /* RootView.swift */; };
+		ECC20E5157817B61F57C9103 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49E56C9662F6ACC7F0940249 /* Assets.xcassets */; };
+		F79DEDBCA8F5FA517F61D5C5 /* RhineKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1838A636D75EA23CE1A33067 /* RhineKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		115CC9BF235BEAEE39B9ECCC /* LyricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsView.swift; sourceTree = "<group>"; };
+		20CE354303F030BAFC810201 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		212A9668848E6B683208F49E /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
+		3765F0E8194DB89ECE3556BE /* MusicOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicOverlay.swift; sourceTree = "<group>"; };
+		389B58041A44A1FB114D4508 /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		475C1D13B477233EC673823E /* observatory-preview.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "observatory-preview.mp3"; sourceTree = "<group>"; };
+		49E56C9662F6ACC7F0940249 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4EA332428257C14035634354 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		50B587DB192EF09E8A38DEE0 /* RhineKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RhineKit; path = RhineKit; sourceTree = SOURCE_ROOT; };
+		55CF988B0D02E35DFF785D9B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		5F1CD1DF2449C510FC149DCD /* music-case-v040.glb */ = {isa = PBXFileReference; path = "music-case-v040.glb"; sourceTree = "<group>"; };
+		81862F908ACCF6F1345DE573 /* ShelfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfView.swift; sourceTree = "<group>"; };
+		8A4714E5DB38D4613887E1F5 /* DetailTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTransport.swift; sourceTree = "<group>"; };
+		8BC7292D2F02E8C6BBB07CBD /* BootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootView.swift; sourceTree = "<group>"; };
+		98B3A17FFA8D3F5DEEE0D310 /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
+		9B25E96B7CA5D2156BECDE21 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		AB2E55254F62E12B06A1BB46 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		B32A7710392A8CC1261B97F9 /* TopBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
+		B40AEACC191E8D444ABFC21A /* RhinePadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhinePadApp.swift; sourceTree = "<group>"; };
+		B4E7026D99A390E5C3E39D17 /* CoverLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverLoader.swift; sourceTree = "<group>"; };
+		B9D518ABFACEA0ED344B496C /* NOTICE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = NOTICE.md; sourceTree = "<group>"; };
+		C944C6BB91D7437ADA7D47DD /* RhinePad.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = RhinePad.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8A733F77A269AEC043ABE13 /* Panels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panels.swift; sourceTree = "<group>"; };
+		DD034F6CA55BA55A61C5BA6C /* Callout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Callout.swift; sourceTree = "<group>"; };
+		DE62130A58F680AB33E011DB /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
+		DF33099D96E14690460E01B5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		E4C54264E37B3D4277A95F35 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = upstream/web/public/fonts; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C72B66C553F75B5E4D6BCBB2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F79DEDBCA8F5FA517F61D5C5 /* RhineKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		044745C8341A42B9FBA8B04A /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				AB2E55254F62E12B06A1BB46 /* Fonts.swift */,
+				389B58041A44A1FB114D4508 /* Keychain.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		3C7846AE29256511CECE843B /* audio */ = {
+			isa = PBXGroup;
+			children = (
+				475C1D13B477233EC673823E /* observatory-preview.mp3 */,
+			);
+			path = audio;
+			sourceTree = "<group>";
+		};
+		4A180124137DE979692E9DD4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C944C6BB91D7437ADA7D47DD /* RhinePad.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		50633372FD985B4F43560AD7 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				8BC7292D2F02E8C6BBB07CBD /* BootView.swift */,
+				DD034F6CA55BA55A61C5BA6C /* Callout.swift */,
+				8A4714E5DB38D4613887E1F5 /* DetailTransport.swift */,
+				20CE354303F030BAFC810201 /* DetailView.swift */,
+				212A9668848E6B683208F49E /* Icons.swift */,
+				DF33099D96E14690460E01B5 /* LoginView.swift */,
+				115CC9BF235BEAEE39B9ECCC /* LyricsView.swift */,
+				3765F0E8194DB89ECE3556BE /* MusicOverlay.swift */,
+				DE62130A58F680AB33E011DB /* Palette.swift */,
+				D8A733F77A269AEC043ABE13 /* Panels.swift */,
+				55CF988B0D02E35DFF785D9B /* RootView.swift */,
+				B32A7710392A8CC1261B97F9 /* TopBar.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		50E12C9CCD28AD5D66B880BB /* web */ = {
+			isa = PBXGroup;
+			children = (
+				66C78DB129FCA5EBE91B6476 /* public */,
+			);
+			path = web;
+			sourceTree = "<group>";
+		};
+		5ABFBCA9672CF4BC6521F352 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				5F1CD1DF2449C510FC149DCD /* music-case-v040.glb */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+		66C78DB129FCA5EBE91B6476 /* public */ = {
+			isa = PBXGroup;
+			children = (
+				E4C54264E37B3D4277A95F35 /* fonts */,
+				5ABFBCA9672CF4BC6521F352 /* assets */,
+				3C7846AE29256511CECE843B /* audio */,
+			);
+			path = public;
+			sourceTree = "<group>";
+		};
+		6B34D5507AB3246B0BAF4DBD /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9B25E96B7CA5D2156BECDE21 /* AppModel.swift */,
+				49E56C9662F6ACC7F0940249 /* Assets.xcassets */,
+				4EA332428257C14035634354 /* Info.plist */,
+				B40AEACC191E8D444ABFC21A /* RhinePadApp.swift */,
+				DFA20FC1D9113E6057510400 /* Shelf */,
+				044745C8341A42B9FBA8B04A /* Support */,
+				50633372FD985B4F43560AD7 /* UI */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		884AA8F215470F8F174971A2 = {
+			isa = PBXGroup;
+			children = (
+				6B34D5507AB3246B0BAF4DBD /* App */,
+				B1E5F2A980A4657338366C65 /* Packages */,
+				9AC63C380A4AF8244C81CCA1 /* upstream */,
+				4A180124137DE979692E9DD4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9AC63C380A4AF8244C81CCA1 /* upstream */ = {
+			isa = PBXGroup;
+			children = (
+				98B3A17FFA8D3F5DEEE0D310 /* LICENSE */,
+				B9D518ABFACEA0ED344B496C /* NOTICE.md */,
+				50E12C9CCD28AD5D66B880BB /* web */,
+			);
+			path = upstream;
+			sourceTree = "<group>";
+		};
+		B1E5F2A980A4657338366C65 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				50B587DB192EF09E8A38DEE0 /* RhineKit */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		DFA20FC1D9113E6057510400 /* Shelf */ = {
+			isa = PBXGroup;
+			children = (
+				B4E7026D99A390E5C3E39D17 /* CoverLoader.swift */,
+				81862F908ACCF6F1345DE573 /* ShelfView.swift */,
+			);
+			path = Shelf;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4B98116915A5D4607095247A /* RhinePad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F5F53DF1309BCFCBA08357AE /* Build configuration list for PBXNativeTarget "RhinePad" */;
+			buildPhases = (
+				9B9D1132E4D5A1C351FF16B5 /* Sources */,
+				E5DF3044464500B7C34BEE8D /* Resources */,
+				C72B66C553F75B5E4D6BCBB2 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RhinePad;
+			packageProductDependencies = (
+				1838A636D75EA23CE1A33067 /* RhineKit */,
+			);
+			productName = RhinePad;
+			productReference = C944C6BB91D7437ADA7D47DD /* RhinePad.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6DA141E10E7918E92C92AF68 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					4B98116915A5D4607095247A = {
+						DevelopmentTeam = 6TU85RAYC4;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 2AB34142E89F2EBA29B64FD6 /* Build configuration list for PBXProject "RhinePad" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 884AA8F215470F8F174971A2;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				915AFFB744B82A9185C56724 /* XCLocalSwiftPackageReference "RhineKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 4A180124137DE979692E9DD4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4B98116915A5D4607095247A /* RhinePad */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E5DF3044464500B7C34BEE8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ECC20E5157817B61F57C9103 /* Assets.xcassets in Resources */,
+				B7BBC1409D0D232296512EFE /* LICENSE in Resources */,
+				8EEFBE084190F307D324CE2E /* NOTICE.md in Resources */,
+				12C35F52A1BF4E163D72DB36 /* fonts in Resources */,
+				86146376418C56DC37F5CBB4 /* music-case-v040.glb in Resources */,
+				460D9B9A0F1B6C717B4882BC /* observatory-preview.mp3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9B9D1132E4D5A1C351FF16B5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58AE6BCCC015DD39798B4DC3 /* AppModel.swift in Sources */,
+				DCE3CBEBF7681E037B7B8772 /* BootView.swift in Sources */,
+				65DC43222F68E6FD2F05C943 /* Callout.swift in Sources */,
+				30D314878585E0EA4E634832 /* CoverLoader.swift in Sources */,
+				65351080FF4EEA4648F59644 /* DetailTransport.swift in Sources */,
+				18AA6C55AF52DD647AF3D753 /* DetailView.swift in Sources */,
+				D88D2AEE38D0F3FBB7E4E8CD /* Fonts.swift in Sources */,
+				C512223770266A2FA4F645B2 /* Icons.swift in Sources */,
+				A2D1854F8F3E49ACD1F0327A /* Keychain.swift in Sources */,
+				6A93C4F2087150C793C087C9 /* LoginView.swift in Sources */,
+				C713A4EA3009A04E05B27DD8 /* LyricsView.swift in Sources */,
+				784BAC91CEA664FA3ED77E2E /* MusicOverlay.swift in Sources */,
+				D3D85E9780EAC040320EFAF3 /* Palette.swift in Sources */,
+				8D96A4F9652E05B346D33E43 /* Panels.swift in Sources */,
+				352C36E949277C1917BBEF7D /* RhinePadApp.swift in Sources */,
+				EBDA34C38D331D2F4B094DEB /* RootView.swift in Sources */,
+				530329327C319061576D2D88 /* ShelfView.swift in Sources */,
+				6AB0FF45D8344281E2391568 /* TopBar.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		03A8B01D7EC83134406E0C1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		3E21895068BA33BCB00AC2A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6TU85RAYC4;
+				ENABLE_PREVIEWS = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sonnyboy.rhinepad;
+				PRODUCT_NAME = RhinePad;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		65067DA0B4067DEA3EE85DCF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6TU85RAYC4;
+				ENABLE_PREVIEWS = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sonnyboy.rhinepad;
+				PRODUCT_NAME = RhinePad;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
+		81E492FDCCA9A2F988DC8BDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2AB34142E89F2EBA29B64FD6 /* Build configuration list for PBXProject "RhinePad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81E492FDCCA9A2F988DC8BDF /* Debug */,
+				03A8B01D7EC83134406E0C1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F5F53DF1309BCFCBA08357AE /* Build configuration list for PBXNativeTarget "RhinePad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3E21895068BA33BCB00AC2A3 /* Debug */,
+				65067DA0B4067DEA3EE85DCF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		915AFFB744B82A9185C56724 /* XCLocalSwiftPackageReference "RhineKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = RhineKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1838A636D75EA23CE1A33067 /* RhineKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RhineKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 6DA141E10E7918E92C92AF68 /* Project object */;
+}

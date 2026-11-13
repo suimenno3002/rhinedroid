@@ -1,0 +1,41 @@
+# macOS and Xcode local state
+.DS_Store
+**/.DS_Store
+DerivedData/
+**/xcuserdata/
+*.xcuserstate
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+*.xcarchive/
+*.dSYM/
+*.ipa
+*.mobileprovision
+*.provisionprofile
+
+# Local build output and tooling caches
+.build-device/
+.build-ios/
+RhineKit/.build/
+**/build/
+node_modules/
+.reftools/
+.shots/
+.sideload/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Local credentials and machine-specific settings
+.env
+.env.*
+!.env.example
+local.properties
+*.p12
+*.pfx
+*.jks
+*.keystore
+signing.properties
+keystore.properties
