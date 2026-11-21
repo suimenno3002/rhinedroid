@@ -1,0 +1,76 @@
+name: Build Unsigned iPad IPA
+
+on:
+  workflow_dispatch:
+    inputs:
+      configuration:
+        description: "Xcode build configuration"
+        required: false
+        default: "Release"
+        type: choice
+        options:
+          - Release
+          - Debug
+  push:
+    branches:
+      - main
+
+jobs:
+  build-ipa:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout repository (with upstream submodule)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Check Xcode toolchain
+        run: |
+          xcodebuild -version
+          swift --version
+          xcodebuild -project RhinePad.xcodeproj -list
+
+      - name: Verify upstream resources
+        run: |
+          ls -la upstream/web/public/assets/music-case-v040.glb
+          ls -la upstream/web/public/audio/observatory-preview.mp3
+          ls -la upstream/web/public/fonts
+
+      - name: Archive unsigned RhinePad.app
+        env:
+          BUILD_CONFIG: ${{ inputs.configuration || 'Release' }}
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project RhinePad.xcodeproj \
+            -scheme RhinePad \
+            -configuration "$BUILD_CONFIG" \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/RhinePad.xcarchive \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            archive
+
+      - name: Package Payload into unsigned IPA
+        run: |
+          APP_PATH="build/RhinePad.xcarchive/Products/Applications/RhinePad.app"
+          test -d "$APP_PATH"
+          test -f "$APP_PATH/music-case-v040.glb"
+          test -f "$APP_PATH/observatory-preview.mp3"
+          test -d "$APP_PATH/fonts"
+
+          mkdir -p build/ipa/Payload
+          cp -R "$APP_PATH" build/ipa/Payload/
+          (cd build/ipa && zip -r -9 ../RhinePad-unsigned.ipa Payload)
+          ls -lh build/RhinePad-unsigned.ipa
+
+      - name: Upload RhinePad-unsigned.ipa artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RhinePad-unsigned-ipa
+          path: build/RhinePad-unsigned.ipa
+          retention-days: 14
