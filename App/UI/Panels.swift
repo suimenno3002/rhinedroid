@@ -2,6 +2,7 @@
 // (MIT, Copyright (c) 2026 LBEILC, Copyright (c) 2026 RonaldDeng).
 import RhineKit
 import SwiftUI
+import UIKit
 
 /// `.music-panel-scrim` + `.music-panel`, shown with the SurfaceTransition curve (300 ms in / 200 ms out).
 struct PanelHost: View {
@@ -10,9 +11,10 @@ struct PanelHost: View {
 
     var body: some View {
         if let panel = model.panel {
+            let n = palette.night
             ZStack {
-                Color(red: 4 / 255, green: 12 / 255, blue: 19 / 255).opacity(0.25)
-                    .background(.ultraThinMaterial.opacity(0.6))
+                Color(.sRGB, red: 4 / 255, green: 12 / 255, blue: 22 / 255, opacity: 0.24 * (1 - n) + 0.56 * n)
+                    .background(.ultraThinMaterial.opacity(0.55 * (1 - n) + 0.18 * n))
                     .ignoresSafeArea()
                     .onTapGesture { model.panel = nil }
                 VStack(alignment: .leading, spacing: 0) {
@@ -56,6 +58,7 @@ struct PanelHeading: View {
                 Text("×").font(.mi(29)).foregroundStyle(palette.muted).frame(width: 48, height: 48).contentShape(Rectangle())
             }
             .buttonStyle(.plain)
+            .hoverEffect(.highlight)
         }
         .padding(.bottom, 14)
     }
@@ -146,18 +149,20 @@ struct SettingsPanel: View {
     var body: some View {
         @Bindable var model = model
         let player = model.player
+        let nativeSize = UIScreen.main.nativeBounds.size
+        let resText = "\(Int(max(nativeSize.width, nativeSize.height)))×\(Int(min(nativeSize.width, nativeSize.height)))"
         PanelHeading(kicker: "PREFERENCES / 设置", title: "界面与播放")
         ScrollView {
             VStack(spacing: 0) {
                 PanelSection(title: "外观") {
-                    SettingsRow(label: "主题", help: "暖昼 / 深夜，650 ms 渐变切换") { ThemeSwitch() }
+                    SettingsRow(label: "主题", help: "暖昼 / 深夜，650 ms 渐变切换（快捷键 ⌘T）") { ThemeSwitch() }
                 }
                 PanelSection(title: "三维档案") {
                     SettingsRow(label: "景深", help: "焦点外的专辑轻微虚化") { InkToggle(isOn: $model.focusDepth) }
                     SettingsRow(label: "解密扫描", help: "打开专辑时封面先模糊、对角扫描后清晰（上游效果）") { InkToggle(isOn: $model.decryption) }
                     SettingsRow(label: "静置浮动", help: "停止操作 2.5 秒后专辑架缓慢起伏") { InkToggle(isOn: $model.idleMotion) }
                     SettingsRow(label: "开场动画", help: "每次连接音乐库时播放") { InkToggle(isOn: $model.playIntro) }
-                    SettingsRow(label: "渲染精度", help: "原生 = 2388×1668 满分辨率") {
+                    SettingsRow(label: "渲染精度", help: "原生 = \(resText) 满分辨率") {
                         ChipPicker(options: [(0.6, "省电"), (0.8, "均衡"), (1.0, "原生")], selection: $model.renderScale)
                     }
                     SettingsRow(label: "动效速度") {
@@ -182,7 +187,7 @@ struct SettingsPanel: View {
                     }
                 }
                 PanelSection(title: "关于") {
-                    Text("RhinePad 0.1.0 · 移植自 RhineDroid 0.4.8（MIT，© 2026 LBEILC，© 2026 RonaldDeng）。三维模型、标识与 MiSans 字体按各自权利人条款原样随本机自用版本提供。")
+                    Text("RhinePad 0.2.0 · 移植自 RhineDroid 0.4.8（MIT，© 2026 LBEILC，© 2026 RonaldDeng）。支持外接键盘快捷键：空格播放/暂停、方向键浏览、Enter 打开、Esc 返回、⌘F 搜索、⌘T 切主题。")
                         .font(.mi(11)).lineSpacing(9).foregroundStyle(palette.muted)
                 }
             }
@@ -270,6 +275,7 @@ struct ResultRow: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .hoverEffect(.highlight)
         .task(id: cover) {
             guard let data = await CoverLoader.fetch(cover: cover, size: 128, client: model.client),
                   let cg = CoverArt.thumbnail(data, maxPixel: 128) else { return }
@@ -378,7 +384,8 @@ struct PlaylistDetail: View {
         ScrollView {
             LazyVStack(spacing: 0) {
                 ForEach(Array(songs.enumerated()), id: \.offset) { index, song in
-                    TrackRow(song: song, number: index + 1, playing: model.player.current?.id == song.id) {
+                    let isCurrent = model.player.current?.id == song.id
+                    TrackRow(song: song, number: index + 1, playing: isCurrent, isActivelyPlaying: isCurrent && model.player.isPlaying) {
                         model.player.play(songs, startAt: index)
                     }
                     .contextMenu {

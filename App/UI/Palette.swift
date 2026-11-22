@@ -1,4 +1,6 @@
+import CoreGraphics
 import SwiftUI
+import UIKit
 
 /// music.css theme variables; every colour lerps day → night with one `night` value (0…1),
 /// like the CSS @property interpolation (650 ms, cubic-bezier(0.4, 0, 0.2, 1)).
@@ -39,11 +41,50 @@ extension EnvironmentValues {
     }
 }
 
-/// `.music-vignette` (music.css:114-126, music-theme.css:115-159, android.css:184-186).
+/// Restrained dominant-hue sampler for album covers: keeps luminance/saturation subtle so the
+/// warm-paper / deep-night mood is echoed rather than overwhelmed.
+enum CoverTintExtractor {
+    @MainActor private static var cache: [String: Color] = [:]
+
+    @MainActor static func cached(_ key: String) -> Color? { cache[key] }
+    @MainActor static func store(_ color: Color, for key: String) { cache[key] = color }
+
+    nonisolated static func extract(from data: Data) -> Color? {
+        guard let image = UIImage(data: data), let cg = image.cgImage else { return nil }
+        let side = 16
+        var pixels = [UInt8](repeating: 0, count: side * side * 4)
+        let space = CGColorSpaceCreateDeviceRGB()
+        guard let ctx = CGContext(
+            data: &pixels, width: side, height: side, bitsPerComponent: 8,
+            bytesPerRow: side * 4, space: space,
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { return nil }
+        ctx.interpolationQuality = .low
+        ctx.draw(cg, in: CGRect(x: 0, y: 0, width: side, height: side))
+
+        var sumR = 0.0, sumG = 0.0, sumB = 0.0, weightSum = 0.0
+        for i in stride(from: 0, to: pixels.count, by: 4) {
+            let r = Double(pixels[i]) / 255.0
+            let g = Double(pixels[i + 1]) / 255.0
+            let b = Double(pixels[i + 2]) / 255.0
+            let hi = max(r, g, b), lo = min(r, g, b)
+            let sat = hi > 0 ? (hi - lo) / hi : 0
+            let midWeight = 1.0 - abs((hi + lo) * 0.5 - 0.52) * 1.4
+            let w = max(0.05, (0.2 + sat * 1.6) * max(0.1, midWeight))
+            sumR += r * w; sumG += g * w; sumB += b * w; weightSum += w
+        }
+        guard weightSum > 0 else { return nil }
+        return Color(.sRGB, red: sumR / weightSum, green: sumG / weightSum, blue: sumB / weightSum, opacity: 1)
+    }
+}
+
+/// `.music-vignette` (music.css:114-126, music-theme.css:115-159, android.css:184-186)
+/// plus a very restrained ambient tint echoing the selected album's artwork.
 struct Vignette: View {
     var night: Double
     var detail: Bool
     var portrait: Bool
+    var ambientTint: Color? = nil
     @Environment(\.palette) private var palette
 
     var body: some View {
@@ -51,6 +92,15 @@ struct Vignette: View {
         let side: (Double, Double, Double) = portrait ? (0.24, 0.48, 0.70) : detail ? (0.24, 0.48, 0.70) : (0.32, 0.58, 0.78)
         let sideOpacity = portrait ? 0.0 : 1.0
         ZStack {
+            if let ambientTint {
+                RadialGradient(
+                    colors: [ambientTint.opacity(0.055 * (1 - night) + 0.11 * night), .clear],
+                    center: detail ? (portrait ? UnitPoint(x: 0.5, y: 0.25) : UnitPoint(x: 0.26, y: 0.52)) : UnitPoint(x: 0.34, y: 0.46),
+                    startRadius: 20,
+                    endRadius: 680
+                )
+                .animation(.easeInOut(duration: 0.8), value: ambientTint)
+            }
             LinearGradient(stops: [
                 .init(color: palette.veil, location: 0), .init(color: .clear, location: 0.23),
                 .init(color: .clear, location: 0.75), .init(color: palette.veil, location: 1),

@@ -2,10 +2,27 @@
 // (MIT, Copyright (c) 2026 LBEILC, Copyright (c) 2026 RonaldDeng).
 import RhineKit
 import SwiftUI
+import UIKit
 
 func clockText(_ seconds: Int) -> String {
     let h = seconds / 3600, m = seconds % 3600 / 60, s = seconds % 60
     return h > 0 ? String(format: "%d:%02d:%02d", h, m, s) : String(format: "%d:%02d", m, s)
+}
+
+/// Splits "中文主标题 (English Subtitle)" or "中文主标题（English）" into main + translation parts
+/// (ui-spec.md §3.4): main must contain Han characters, bracketed tail must have Latin letters and no Han.
+func splitBilingualTitle(_ raw: String) -> (main: String, translation: String?) {
+    let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard let last = trimmed.last, last == ")" || last == "）" else { return (trimmed, nil) }
+    let open: Character = last == ")" ? "(" : "（"
+    guard let openIndex = trimmed.lastIndex(of: open), openIndex > trimmed.startIndex else { return (trimmed, nil) }
+    let main = trimmed[..<openIndex].trimmingCharacters(in: .whitespaces)
+    let sub = trimmed[trimmed.index(after: openIndex)..<trimmed.index(before: trimmed.endIndex)].trimmingCharacters(in: .whitespaces)
+    guard !main.isEmpty, !sub.isEmpty else { return (trimmed, nil) }
+    let hasHan: (String) -> Bool = { s in s.unicodeScalars.contains { (0x4E00...0x9FFF).contains($0.value) || (0x3400...0x4DBF).contains($0.value) } }
+    let hasLatin: (String) -> Bool = { s in s.unicodeScalars.contains { ($0.value >= 0x41 && $0.value <= 0x5A) || ($0.value >= 0x61 && $0.value <= 0x7A) } }
+    guard hasHan(main), hasLatin(sub), !hasHan(sub) else { return (trimmed, nil) }
+    return (main, sub)
 }
 
 /// `.album-callout`: landscape left 64 % / right 20 / top 29 %; portrait left/right 16, bottom 164.
@@ -30,7 +47,7 @@ struct AlbumCallout: View {
             let position = model.listPosition(for: model.selectedId)
             let code = position.map { "TRACK \(String(format: "%02d", $0.index + 1)) / \(String(format: "%02d", $0.total))" }
                 ?? "ALBUM \(String(format: "%03d", (layout.ordinal(model.selectedId) ?? 0) + 1))"
-            let heading = song?.title ?? album.name
+            let titleParts = splitBilingualTitle(song?.title ?? album.name)
             let subtitle = song.map { "\($0.artist ?? "未知歌手")  ·  \(album.name)" } ?? (album.artist ?? "未知歌手")
             let info = song.map { [$0.suffix?.uppercased() ?? "", clockText($0.duration ?? 0), album.year.map(String.init) ?? ""]
                 .filter { !$0.isEmpty }.joined(separator: "  /  ") } ?? meta
@@ -56,6 +73,7 @@ struct AlbumCallout: View {
                                 .frame(height: 32).contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
+                            .hoverEffect(.highlight)
                             .transition(.opacity)
                         }
                     }
@@ -69,13 +87,22 @@ struct AlbumCallout: View {
                 .padding(.top, 15).padding(.bottom, 12)
                 .overlay(alignment: .bottom) { Rectangle().fill(palette.ink).frame(height: 1) }
                 .padding(.bottom, 17)
-                Text(heading)
-                    .font(.mi(titleSize, .bold)).tracking(-0.6)
-                    .lineSpacing(titleSize * 0.4 - 4)
-                    .lineLimit(2)
-                    .padding(.top, 12 - 17).padding(.bottom, 8)
-                    .id(model.selectedId)
-                    .transition(.asymmetric(insertion: .opacity.combined(with: .offset(y: 10)), removal: .opacity))
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(titleParts.main)
+                        .font(.mi(titleSize, .bold)).tracking(-0.6)
+                        .lineSpacing(titleSize * 0.35 - 4)
+                        .lineLimit(2)
+                    if let trans = titleParts.translation {
+                        Text(trans)
+                            .font(.mi(max(13, titleSize * 0.44), .demibold))
+                            .tracking(0.2)
+                            .foregroundStyle(palette.muted)
+                            .lineLimit(2)
+                    }
+                }
+                .padding(.top, 12 - 17).padding(.bottom, 8)
+                .id(model.selectedId)
+                .transition(.asymmetric(insertion: .opacity.combined(with: .offset(y: 10)), removal: .opacity))
                 Text(subtitle).font(.mi(12, .demibold)).lineLimit(1).padding(.bottom, 10)
                 Text(info).font(.mi(10)).tracking(0.5).foregroundStyle(palette.muted)
                 Button { model.open() } label: {
@@ -90,6 +117,7 @@ struct AlbumCallout: View {
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                .hoverEffect(.highlight)
                 .padding(.top, 8)
             }
             .foregroundStyle(palette.ink)
@@ -107,7 +135,7 @@ struct AlbumCallout: View {
     }
 }
 
-/// `.music-navigation`: counter, album stepper with the 12-slot tick ruler, column stepper.
+/// `.music-navigation`: counter, album stepper with the interactive 12-slot tick ruler, column stepper.
 struct ShelfNavigation: View {
     let portrait: Bool
     @Environment(AppModel.self) private var model
@@ -130,7 +158,10 @@ struct ShelfNavigation: View {
         }
         let stepper = HStack(spacing: portrait ? 0 : 6) {
             arrow("↑") { model.navigate(axis: "row", direction: -1) }
-            TickRuler(count: column.count, selected: row)
+            TickRuler(count: column.count, selected: row) { target in
+                guard target != row, let key = column[safe: target] else { return }
+                model.select(key, axis: "row", direction: target > row ? 1 : -1)
+            }
             arrow("↓") { model.navigate(axis: "row", direction: 1) }
         }
         let columns = HStack(spacing: 4) {
@@ -144,6 +175,7 @@ struct ShelfNavigation: View {
                         .padding(4).frame(minHeight: 40)
                 }
                 .buttonStyle(.plain)
+                .hoverEffect(.highlight)
             }
             .frame(minWidth: portrait ? 78 : 0)
             if portrait { Spacer(minLength: 0) }
@@ -175,33 +207,68 @@ struct ShelfNavigation: View {
     }
 
     private func arrow(_ glyph: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
+        Button {
+            UISelectionFeedbackGenerator().selectionChanged()
+            action()
+        } label: {
             Text(glyph).font(.mi(25)).frame(width: 48, height: 48).contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .hoverEffect(.highlight)
     }
 }
 
-/// `#album-ticks`: 12 slots, 3×10 pt marks at 25 % ink, the selected one 30 pt tall at full ink (0.4 s).
-/// The window recentres only when the selection leaves it (music-ticks.ts:84-86).
+/// Interactive precision vernier ruler (`#album-ticks`): tap or scrub across ticks to jump directly
+/// to an album with tactile haptic detents.
 struct TickRuler: View {
     let count: Int
     let selected: Int
+    let onSelect: (Int) -> Void
     @State private var windowStart = 0
+    @State private var scrubSlot: Int?
     @Environment(\.palette) private var palette
     private let slots = 12
+    private let tickWidth: CGFloat = 3
+    private let tickGap: CGFloat = 8
 
     var body: some View {
-        HStack(spacing: 8) {
-            ForEach(0..<min(slots, count), id: \.self) { slot in
-                let active = windowStart + slot == selected
-                Rectangle().fill(palette.ink)
-                    .frame(width: 3, height: active ? 30 : 10)
-                    .opacity(active ? 1 : 0.25)
+        let visible = min(slots, count)
+        let step = tickWidth + tickGap
+        let totalWidth = visible > 0 ? CGFloat(visible) * step - tickGap : 0
+        HStack(spacing: tickGap) {
+            ForEach(0..<visible, id: \.self) { slot in
+                let index = windowStart + slot
+                let active = index == selected
+                let scrubbing = scrubSlot == slot && !active
+                Rectangle()
+                    .fill(active ? palette.accent : (scrubbing ? palette.accent.opacity(0.85) : palette.ink))
+                    .frame(width: tickWidth, height: active ? 30 : (scrubbing ? 22 : 10))
+                    .opacity(active || scrubbing ? 1 : 0.28)
                     .frame(height: 30)
             }
         }
-        .animation(.easeInOut(duration: 0.4), value: selected)
+        .padding(.horizontal, 6)
+        .frame(minHeight: 44)
+        .contentShape(Rectangle())
+        .gesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { value in
+                    guard visible > 0, totalWidth > 0 else { return }
+                    let localX = value.location.x - 6
+                    let slot = min(max(Int(round(localX / step)), 0), visible - 1)
+                    if scrubSlot != slot {
+                        scrubSlot = slot
+                        let target = min(max(windowStart + slot, 0), count - 1)
+                        if target != selected {
+                            UISelectionFeedbackGenerator().selectionChanged()
+                            onSelect(target)
+                        }
+                    }
+                }
+                .onEnded { _ in scrubSlot = nil }
+        )
+        .animation(.spring(response: 0.34, dampingFraction: 0.84), value: selected)
+        .animation(.spring(response: 0.25, dampingFraction: 0.85), value: scrubSlot)
         .onChange(of: selected, initial: true) { _, value in recentre(value) }
         .onChange(of: count) { _, _ in recentre(selected, force: true) }
     }
@@ -226,7 +293,7 @@ struct BottomLine: View {
             (Text("NAVIDROME COLLECTION") + Text("  ·  ") + Text("\(albums.count) ALBUMS / \(tracks) TRACKS"))
             Spacer()
             if !portrait {
-                Text("METAL · GPU INSTANCING / \(model.theme == .night ? "深夜" : "暖昼") / V0.1.0")
+                Text("METAL · GPU INSTANCING / \(model.theme == .night ? "深夜" : "暖昼") / V0.2.0")
             }
         }
         .font(.mi(portrait ? 7 : 8)).tracking(1.1).foregroundStyle(palette.muted)

@@ -45,9 +45,9 @@ struct TopBar: View {
 
     private var brand: some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text("RhineDroid").font(.mi(portrait ? 21 : 23, .bold)).tracking(1).foregroundStyle(palette.ink)
+            Text("RhinePad").font(.mi(portrait ? 21 : 23, .bold)).tracking(1).foregroundStyle(palette.ink)
             if !portrait {
-                (Text("MUSIC ARCHIVE") + Text(" ／ ").foregroundColor(palette.muted) + Text("LOCAL MUSIC PLAYER"))
+                (Text("MUSIC ARCHIVE") + Text(" ／ ").foregroundColor(palette.muted) + Text("NAVIDROME PLAYER"))
                     .font(.mi(8)).tracking(0.7).foregroundStyle(palette.ink).frame(height: 12)
             }
         }
@@ -62,7 +62,7 @@ struct TopBar: View {
         Button { model.panel = .playlists } label: {
             Text("↻").font(.mi(12)).foregroundStyle(palette.ink).frame(width: 48, height: 48).contentShape(Rectangle())
         }
-        .buttonStyle(.plain).fade(hidden)
+        .buttonStyle(.plain).hoverEffect(.highlight).fade(hidden)
         IconButton(icon: .settings) { model.panel = .settings }.fade(hidden)
     }
 
@@ -141,6 +141,7 @@ struct TopBar: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .hoverEffect(.highlight)
         .disabled(model.layout.albums.isEmpty)
         .opacity(model.mode == .detail ? 0 : model.overview ? 0 : model.layout.albums.isEmpty ? 0.38 : 1)
         .offset(y: model.overview ? -6 : 0)
@@ -160,6 +161,7 @@ struct IconButton: View {
             IconView(icon: icon, size: size).foregroundStyle(palette.ink).frame(width: 48, height: 48).contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .hoverEffect(.highlight)
     }
 }
 
@@ -207,7 +209,7 @@ struct ThemeSwitch: View {
     }
 }
 
-/// Text-only now-playing entry: play/pause glyph + song title. Title opens the close-up on that song.
+/// Text-only now-playing entry: frameless prev / play-pause / next glyphs.
 struct NowPlayingEntry: View {
     let portrait: Bool
     @Environment(AppModel.self) private var model
@@ -219,11 +221,20 @@ struct NowPlayingEntry: View {
         HStack(spacing: 0) {
             control(.previous) { model.skipTrack(-1) }
             Button { player.toggle() } label: {
-                IconView(icon: player.isPlaying ? .pause : .play)
-                    .foregroundStyle(player.isPlaying ? palette.accent : palette.ink)
-                    .frame(width: 48, height: 48).contentShape(Rectangle())
+                ZStack {
+                    IconView(icon: .play)
+                        .opacity(player.isPlaying ? 0 : 1)
+                        .scaleEffect(player.isPlaying ? 0.7 : 1)
+                    IconView(icon: .pause)
+                        .opacity(player.isPlaying ? 1 : 0)
+                        .scaleEffect(player.isPlaying ? 1 : 0.7)
+                }
+                .foregroundStyle(player.isPlaying ? palette.accent : palette.ink)
+                .animation(.easeInOut(duration: 0.18), value: player.isPlaying)
+                .frame(width: 48, height: 48).contentShape(Rectangle())
             }
             .buttonStyle(.plain)
+            .hoverEffect(.highlight)
             control(.next) { model.skipTrack(1) }
         }
         .disabled(!hasSong)
@@ -235,6 +246,7 @@ struct NowPlayingEntry: View {
             IconView(icon: icon).foregroundStyle(palette.ink).frame(width: 48, height: 48).contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .hoverEffect(.highlight)
     }
 }
 

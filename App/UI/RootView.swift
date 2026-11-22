@@ -1,9 +1,11 @@
 import RhineKit
 import SwiftUI
+import UIKit
 
 struct RootView: View {
     @Environment(AppModel.self) private var model
     @State private var night: Double = 0
+    @State private var ambientTint: Color?
 
     var body: some View {
         GeometryReader { geometry in
@@ -15,7 +17,7 @@ struct RootView: View {
                 } else {
                     Text("无法创建 Metal 渲染器").font(.mi(15)).foregroundStyle(Palette(night: night).muted)
                 }
-                Vignette(night: night, detail: model.mode == .detail, portrait: portrait)
+                Vignette(night: night, detail: model.mode == .detail, portrait: portrait, ambientTint: ambientTint)
                     .ignoresSafeArea()
                     .animation(Palette.themeAnimation, value: model.mode)
                 if model.signedIn {
@@ -25,6 +27,7 @@ struct RootView: View {
                     if model.booting {
                         BootView(portrait: portrait, size: geometry.size).transition(.opacity)
                     }
+                    keyboardShortcuts
                 } else {
                     LoginView()
                 }
@@ -47,5 +50,76 @@ struct RootView: View {
             withAnimation(Palette.themeAnimation) { night = theme == .night ? 1 : 0 }
         }
         .onChange(of: model.mode) { _, _ in model.player.setForeground(model.mode == .archive) }
+        .task(id: model.selected?.coverArt ?? model.selected?.id ?? "") {
+            guard let album = model.selected else { ambientTint = nil; return }
+            let coverKey = album.coverArt ?? album.id
+            if let cached = CoverTintExtractor.cached(coverKey) {
+                ambientTint = cached
+                return
+            }
+            guard let data = await CoverLoader.fetch(cover: album.coverArt, size: 128, client: model.client) else { return }
+            let tint = await Task.detached(priority: .utility) { CoverTintExtractor.extract(from: data) }.value
+            if let tint {
+                CoverTintExtractor.store(tint, for: coverKey)
+                ambientTint = tint
+            }
+        }
+    }
+
+    /// iPad hardware keyboard shortcuts (Space, arrows, Return, Esc, ⌘F, ⌘T).
+    /// Single-key shortcuts yield whenever a modal panel with text input is open.
+    @ViewBuilder
+    private var keyboardShortcuts: some View {
+        if !model.booting {
+            ZStack {
+                Button("") {
+                    if model.panel != nil { model.panel = nil }
+                    else if model.arrangementsOpen { model.setArrangements(false) }
+                    else if model.overview { model.toggleOverview() }
+                    else if model.mode == .detail { model.back() }
+                }
+                .keyboardShortcut(.escape, modifiers: [])
+
+                Button("") { model.panel = model.panel == .search ? nil : .search }
+                    .keyboardShortcut("f", modifiers: .command)
+
+                Button("") { model.toggleTheme() }
+                    .keyboardShortcut("t", modifiers: .command)
+
+                if model.panel == nil {
+                    Button("") { model.player.toggle() }
+                        .keyboardShortcut(.space, modifiers: [])
+                    Button("") {
+                        if model.mode == .detail { model.navigateDetail(-1) }
+                        else { model.navigate(axis: "row", direction: -1) }
+                    }
+                    .keyboardShortcut(.upArrow, modifiers: [])
+                    Button("") {
+                        if model.mode == .detail { model.navigateDetail(1) }
+                        else { model.navigate(axis: "row", direction: 1) }
+                    }
+                    .keyboardShortcut(.downArrow, modifiers: [])
+                    Button("") {
+                        if model.mode == .detail { model.navigateDetail(-1) }
+                        else { model.stepLane(-1, inOverview: model.overview) }
+                    }
+                    .keyboardShortcut(.leftArrow, modifiers: [])
+                    Button("") {
+                        if model.mode == .detail { model.navigateDetail(1) }
+                        else { model.stepLane(1, inOverview: model.overview) }
+                    }
+                    .keyboardShortcut(.rightArrow, modifiers: [])
+                    Button("") {
+                        if model.overview { model.enterFromOverview(model.selectedId) }
+                        else if model.mode == .archive { model.open() }
+                    }
+                    .keyboardShortcut(.return, modifiers: [])
+                }
+            }
+            .frame(width: 0, height: 0)
+            .opacity(0.001)
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
+        }
     }
 }

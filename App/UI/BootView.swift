@@ -93,40 +93,56 @@ struct BootView: View {
     private func mark(contour: Double, symbols: Double) -> some View {
         let width = min(max(320, size.width * 0.4), 560, size.width - 40)
         return VStack(spacing: 17) {
-            MarkShape(contour: contour, symbols: symbols, ink: palette.ink)
+            MarkShape(contour: contour, symbols: symbols, ink: palette.ink, accent: palette.accent)
                 .frame(width: width, height: width * 192 / 856)
-            Text("RhineDroid").font(.mi(10, .demibold)).tracking(3).foregroundStyle(palette.ink)
+            Text("RhinePad").font(.mi(10, .demibold)).tracking(3.6).foregroundStyle(palette.ink)
         }
     }
 }
 
-/// The infinity contour (pathLength 1, drawn on), the + − − symbols and the Android head; viewBox 0 64 856 192.
+/// The infinity contour (pathLength 1, drawn on), the + − symbols and the geometric disc emblem; viewBox 0 64 856 192.
 private struct MarkShape: View {
     let contour: Double
     let symbols: Double
     let ink: Color
+    let accent: Color
 
     static let contourPath = SVGPath.parse("M295 73C295 41 273 15 240 15C221 15 207 23 192 38C186 43 181 47 176 52C127 96 103 128 70 128C38 128 15 101 15 70C15 39 37 15 70 15C103 15 127 48 156 75C182 99 208 128 240 128C273 128 295 105 295 73Z")
     static let symbolPath = SVGPath.parse("M44 70h50M69 45v50M219 70h44")
-    static let android = SVGPath.parse("M17.6,9.48l1.84-3.18c0.16-0.31,0.04-0.69-0.26-0.85c-0.29-0.15-0.65-0.06-0.83,0.22l-1.88,3.24 c-2.86-1.21-6.08-1.21-8.94,0L5.65,5.67c-0.19-0.29-0.58-0.38-0.87-0.2C4.5,5.65,4.41,6.01,4.56,6.3L6.4,9.48 C3.3,11.25,1.28,14.44,1,18h22C22.72,14.44,20.7,11.25,17.6,9.48z M7,15.25c-0.69,0-1.25-0.56-1.25-1.25 c0-0.69,0.56-1.25,1.25-1.25S8.25,13.31,8.25,14C8.25,14.69,7.69,15.25,7,15.25z M17,15.25c-0.69,0-1.25-0.56-1.25-1.25 c0-0.69,0.56-1.25,1.25-1.25s1.25,0.56,1.25,1.25C18.25,14.69,17.69,15.25,17,15.25z")
 
     var body: some View {
         Canvas { context, size in
             let scale = size.width / 856
             context.scaleBy(x: scale, y: scale)
             context.translateBy(x: 0, y: -64)
+
             var logo = context
-            logo.translateBy(x: 80, y: 78)
+            logo.translateBy(x: 112, y: 78)
             logo.scaleBy(x: 1.15, y: 1.15)
             if contour > 0 {
                 logo.stroke(Self.contourPath.trimmedPath(from: 0, to: contour), with: .color(ink), style: StrokeStyle(lineWidth: 18))
             }
             logo.opacity = symbols
             logo.stroke(Self.symbolPath, with: .color(ink), style: StrokeStyle(lineWidth: 11))
-            var head = context
-            head.translateBy(x: 476, y: 8)
-            head.scaleBy(x: 13, y: 13)
-            head.fill(Self.android, with: .color(ink))
+
+            var divider = context
+            divider.opacity = symbols * 0.35
+            divider.stroke(Path { $0.move(to: CGPoint(x: 516, y: 108)); $0.addLine(to: CGPoint(x: 516, y: 212)) },
+                           with: .color(ink), lineWidth: 2.5)
+
+            var disc = context
+            let center = CGPoint(x: 642, y: 160)
+            let outer = Path { $0.addArc(center: center, radius: 74, startAngle: .degrees(-90), endAngle: .degrees(270), clockwise: false) }
+            if contour > 0 {
+                disc.stroke(outer.trimmedPath(from: 0, to: contour), with: .color(ink), style: StrokeStyle(lineWidth: 14))
+            }
+            disc.opacity = symbols
+            let groove = Path { $0.addArc(center: center, radius: 46, startAngle: .degrees(-35), endAngle: .degrees(145), clockwise: false) }
+            disc.stroke(groove, with: .color(ink.opacity(0.45)), style: StrokeStyle(lineWidth: 5, lineCap: .round))
+            let groove2 = Path { $0.addArc(center: center, radius: 46, startAngle: .degrees(185), endAngle: .degrees(305), clockwise: false) }
+            disc.stroke(groove2, with: .color(ink.opacity(0.45)), style: StrokeStyle(lineWidth: 5, lineCap: .round))
+            let spindle = Path(ellipseIn: CGRect(x: center.x - 15, y: center.y - 15, width: 30, height: 30))
+            disc.fill(spindle, with: .color(accent))
         }
     }
 }

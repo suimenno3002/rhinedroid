@@ -78,6 +78,7 @@ struct MusicOverlay: View {
                         .padding(.trailing, 40).frame(minHeight: 48).contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                .hoverEffect(.highlight)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding(.leading, portrait ? 16 : 20).padding(.top, portrait ? 128 : 74)
             }
